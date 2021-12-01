@@ -2,8 +2,8 @@
 
 
 def part1(measurements: list) -> int:
-    larger_than_previous_measurements = 1 # we get the first one for free, since its the start of measurements
-
+    larger_than_previous_measurements = 0 
+    
     for i in range(1, len(measurements)):
         if measurements[i] > measurements[i-1]: 
             larger_than_previous_measurements +=1
@@ -12,7 +12,7 @@ def part1(measurements: list) -> int:
 
 def part2(measurements: list) -> int:
     sliding_window_values = []
-    for i in range(3, len(measurements)):
+    for i in range(2, len(measurements)):
         sliding_window_values.append(sum(measurements[i-3:i]))
 
     return part1(sliding_window_values)
