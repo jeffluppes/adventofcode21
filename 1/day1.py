@@ -1,35 +1,26 @@
 # https://adventofcode.com/2021/day/1
 
-with open('input.txt') as f:
-    lines = f.read().splitlines()
 
-print(f'{len(lines)} lines in sample')
+def part1(measurements: list) -> int:
+    larger_than_previous_measurements = 1 # we get the first one for free, since its the start of measurements
 
-# start at 1 because the first number is always an increase as it starts the measurements
-larger_than_previous_measurements = 1
+    for i in range(1, len(measurements)):
+        if measurements[i] > measurements[i-1]: 
+            larger_than_previous_measurements +=1
 
-for i in range(1, len(lines)):
-    if lines[i] >= lines[i-1]:
-        larger_than_previous_measurements +=1
+    return larger_than_previous_measurements
 
-print(f'There are {larger_than_previous_measurements} measurements that are larger than the previous measurement')
+def part2(measurements: list) -> int:
+    sliding_window_values = []
+    for i in range(3, len(measurements)):
+        sliding_window_values.append(sum(measurements[i-3:i]))
 
-# part 2: sliding window for 3 measurements 
-sliding_window_values = []
-num_measurements = 3
+    return part1(sliding_window_values)
 
-lines = [int(x) for x in lines]
+if __name__ == '__main__':
+    with open('input.txt') as f:
+        measurements: list[str] = f.read().splitlines()
 
-
-for i in range(num_measurements-1, len(lines)):
-    threedaysum = lines[i]+lines[i-1]+lines[i-2]
-    sliding_window_values.append(threedaysum)
-
-
-larger_than_previous_measurements =0
-for i in range(1, len(sliding_window_values)):
-    if sliding_window_values[i] > sliding_window_values[i-1]:
-        larger_than_previous_measurements +=1
-
-print(sliding_window_values[0:10])
-print(f'There are {larger_than_previous_measurements} 3-day measurements that are larger than the previous measurement')
+    measurements: list = [int(x) for x in measurements]
+    print(f'part 1: {part1(measurements)} measurements')
+    print(f'part 2: {part2(measurements)} measurements')
