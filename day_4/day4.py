@@ -1,16 +1,6 @@
 # template for advent of code challenges
 import numpy as np
 
-def part1(seq: list[str],):
-    pass
-    #return 
-
-def part2(commands: list[str]):
-    pass
-    # return
-
-import numpy as np
-
 if __name__ == '__main__':
 
 
@@ -30,17 +20,18 @@ if __name__ == '__main__':
                 numbers = r.split()
                 temp[idx:] = numbers
         boards_ds.append(temp)
-    
-    print(np.shape(boards_ds))
-    #print(boards_ds)
 
     board_masks = np.zeros(shape=np.shape(boards_ds))
     boards_ds = np.array(boards_ds)
+
+    # keep track of past winners (part 2)
     has_won = list(np.zeros(100))
+
+    # loop through boards and process matches
     for i in inputs:
         # go through all the boards and if we get a match, mark the mask with 1
         for b in range(np.shape(boards_ds)[0]):
-            if not int(has_won[b]):
+            if not int(has_won[b]): # no need to do this again if a board has already won
                 for row in range(np.shape(boards_ds)[1]):
                     for index in range(np.shape(boards_ds)[2]):
                         if int(i) == int(boards_ds[b, row, index]):
@@ -54,7 +45,10 @@ if __name__ == '__main__':
             if not int(has_won[idx]):
                 for row in range(np.shape(boards_ds)[1]):
                     if np.sum(b[row]) == 5 or np.sum(b[:,row]) == 5:
+                        
+                        #calculate score of the board
                         score = np.sum(boards_ds[idx].astype(int)) - np.sum(boards_ds[idx].astype(int)[b.astype(bool)])
+                        
                         print(f'BINGO! board: {idx} with input {i} won! Score: {score*int(i)} - There are {np.sum(has_won)} boards that have already won')
                         has_won[idx] = 1
 
